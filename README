@@ -1,0 +1,56 @@
+This code has been tested to compile in the following operating systems:
+
+ * Linux
+ * FreeBSD
+ * OpenBSD
+ * Microsoft(r) Windows(tm) (using Microsoft Visual C++ 2005 (8.0) express).
+
+The code should compile on many other systems as well. If you get to compile it in 
+other systems you may e-mail me so I can them to this list.
+
+NOTE: - You will need to have mysql and mysql++ installed on your system.
+
+        - mysql as you probably already know is a database system.
+          - You will also need the mysql API header and library files.
+          - If you installed mysql from a binary package you might have
+            to install the mysql-dev package too.
+        For more info on mysql database system please visit http://www.mysql.com.
+
+        - mysql++ is a free c++ wrapper for MySQL's C API used by eChan to interact
+          with the MySQL database server.
+          - This library is released under the GPL license as this program is.
+        For more info on mysql++ please visit http://tangentsoft.net/mysql++.
+
+Compiling and running in Unix-like systems:
+ - You should've gotten the code-base by now from cvs.
+ - Run the configure script (Type ./configure).
+ - Type make.
+ - Type make install.
+ - Go to the bin directory and edit the configuration file (eChan.conf).
+ - Run by typing ./eChan inside the bin directory.
+
+Compiling and running in Microsoft Windows:
+ - You're going to need Microsoft Visual C++ 2003 or later and the Platform SDK. 
+ - Download the file from cvs. (I normally use TortoiseCVS for this).
+ - Create a new Project from existing code.
+ - set the project directory to where you downloaded the files from cvs.
+ - On project properties add the include directories to directories to include.
+ - Also add the include directory from the Platform SDK.
+ - Add the lib directory to the linker directory dependencies.
+ - Add WSock32.lib to linker dependencies.
+ - Build the project.
+ - modify eChan.conf
+ - run eChan.exe
+
+*** Post-Installation Notes ***
+
+ Before Running eChan make sure you:
+
+   - Add Ulines for eChan in your ircd configuration file.
+   - Create a database named eChan.
+   - Run the mysql scripts located at src/cservice/sql.
+   - Edit eChan.conf.
+
+NOTE: eChan is still in alpha state and is not mature enough for a production network.
+
+Please report bugs, feedback, patches, etc... to alan.alvarez@us.army.mil

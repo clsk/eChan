@@ -1,0 +1,323 @@
+October 31st, 2003 - clsk - Started working on eChan.
+  * Started the Socket class. still need to finish SocketException class.
+
+November 1st, 2003 - clsk - eChan Connects to the network.
+  * Made Client and Server struct.
+  * The pseudo-server is always Servers.begin() and channel service bot is always Servers.begin().
+  * Finished the SocketException class.
+  * orginized the main function. Organized try/catch blocks.
+  * fixed the debug class.
+  * Started and almost finished Servers class. Still need to finish it.
+
+November 2nd, 2003 - clsk - Finished Clients and Servers class. (This took me the whole day!!!)
+  * Finished working on Servers.
+  * Now each Server has a list of ClientIterator(s). Now when you destroy a server the clients on that server are
+    destroyed as well automatically.
+  * Added the software license. Using GNU GPL. All (current) files are copyrighted to me (Alan Alvarez).
+
+November 3rd, 2003 - clsk - Fixed some stuff in Clients and Servers class.
+  * Added Account member to Client struct.
+  * Re-organized Contructor parameters for Client and Server structs.
+  * Added AddModesToClient and DelModeToClients methods to Clients class.
+
+November 4th, 2003 - clsk - Started Channel struct.
+  * Added a AddModes and a DelModes member to Client struct.
+  * Started working on Channel struct. Still need to work some
+    things out about how the Channels class is going to work.
+
+November 6th, 2003 - clsk - Almost finished Channel struct, ChanneClient struct and Channels class.
+  * Worked alot on Channel struct, ChanneClient struct and Channels class.
+  * still need to fix a bug on Channel::AddClient().
+
+November 7th, 2003 - clsk - Some progress in Channels.
+  * Fixed some bugs on Channels structs/class.
+  * There is still a bug. For some reason the Modes are "magically" emptied.
+
+November 8th, 2003 - clsk - Finished Channels base.
+  * Fixed bugs on Channels base.
+  * Now when a client is destroyed it is removed from all channels.
+  * Also now when a channel becomes empty the channel is destroyed.
+  * Added BanList to channels.
+  * Clients, Channels and Servers base are finished. Next step is the Message Parser. 
+  * Fixed debug class.
+  * Fixed IsCommand and made inbuffer static.
+  * Added Flag member to Server struct.
+
+Decemeber 6th, 2003 - clsk - re-wrote network base.
+  * Now the network base is represented by the Network class.
+  * everything is now in the namespace eNetworks.
+  * the project was accepted today in developer.berlios.de.
+  * implemented the Msg class and the parser. For now only PreServerMsg works.
+  * Made MsgTokenizer class.
+  * Alot of changes have been made that I can't remember atm.
+
+December 7th, 2003 - clsk - Added Msg_S class (Token S) handler.
+  * Added Msg_S class to handle S tokens and add servers in the network database.
+  * Tokens with ':' prefix in MsgTokenizer now doesn't include the prefix ':'.
+  * Removed all warnings even when compiling with -W and -Wall
+
+December 8th, 2003 - clsk - Added Msg_N class (Token N) handler.
+  * Added Msg_N class to handle N tokens and add clients in the network database.
+  * Added Tokens::ERROR handler. Still need to check for ERROR tokens coming from a defined source.
+
+December 11th, 2003 - clsk - Added Msg_B class (Token B) handler.
+  * Added Msg_B class to handle B tokens and add channels in the network database.
+  * Organized Msg derived classes files. Now each class has its own source file.
+  * MsgParser is now a static member of Msg.
+  * Fixed a bug in Msg constructor where if the source of the message happened to have the same letters 
+    as the token the Parameters wouldn't work as expected.
+
+December 12th, 2003 - clsk - Made Makefiles and Added Msg_EB class (Token EB) handler.
+  * Made a Makefile. the eChan binary now goes to bin/ and the configuration file resides there too.
+  * Added Msg_EB class (Token EB) handler and sends back EA (End of acknowledgement).
+
+December 21st, 2003 - clsk - Delete servers linked to another server when the server is deleted from the network.
+  * Now the servers linked to a server are also deleted on DelClientByNumeric.
+  * DelClientByName now calls DelClientByNumeric when it finds a server.
+  * Commented the code in Network.cpp a little bit. Much more to comment/document.
+
+February 17th, 2005 - clsk - Delete a channel when all clients leave.
+  * Now channels are automatically deleted when all clients leave from that channel.
+  * Extended Copyright notice to 2005. and also updated my e-mail address.
+
+February 23rd, 2005 - clsk - Created Msg_C.cpp to handle C Tokens.
+ * Created Msg_C.cpp to handle C messages.
+ * P10Tokens.h Added Tokens::CREATE
+ * now eNetwork::AddChannel uses default arguments for all its arguments except for Name and TimeStamp.
+
+March 19th, 2005 - clsk - Created Msg_Q.cpp to hande Q Tokens
+ * Created Msg_Q to handle Q Messages
+ * P10Tokens.h Added Tokens::QUIT
+
+March 19th, 2005 - clsk - Started the Buffer class.
+ * New Buffer class. Still not implemented. It has no impact on software yet.
+ * New User classes are InBuffer and OutBuffer.
+
+March 25th, 2005 - clsk - Started Implementing new design.
+ * Buffer classes are completed.
+ * Created Mutexes and Condition Variables.
+ * Created Thread class.
+ * Created and(i think) finished InMsgSystem.
+ * Created (and haven't finished) OutMsgSystem.
+ * Need to come up with new design for the Msg Parser. (MsgParserSystem)
+ * Now, in main(), we only let InMsgSystem know that there's a new message to retrieve instead of doing all that work we did before.
+
+April 14th, 2005 - clsk - Almost done implementing Multithreading.
+ * Multithreading implementation seems to be done by now. After a week of trying to find out why pthread_create died when calling it someone
+   pointed out something kind of obvious that we already knew but it didn't make any sense. pthread_create's address was 0x0. What happened
+   was that libpthread wasn't being linked against eChan. You'd think (as I did) that this would've produced a link-time error which is why
+   it didn't make any sense to even go that way. But oh well, the problem is fixed now.
+ * We've got a new "bug" now and it is that as the Msg class modified it's not working as it was before and not working as expected. I'll
+   take a look into that for the rest of the week and come up with fixes for that.
+
+April 16th, 2005 - clsk - Multithreading implementation is finally done.
+ * I'm finally done implementing multithreading. It's now going to go under performance test. If for some reason we find out
+   that performance is better for the performance of the program not to use multithreading, it will be remoced. It shouldn't
+   take any effort/time to do this. If we keep multithreading or not I have to admit it this was a good experience The design
+   is also alot better.
+ * Now also we're using poll() instead of select to monitor the socket file descriptor. select() was giving me a headache and this was
+   not the first time this had happened. poll() is a lot easier to implement and maintain. poll() is actually the same thing. Systems
+   that don't have native support for poll() normally map it to select() and vice-versa. In the future we might change to /dev/poll
+   and kqueue for freebsd systems.
+ * It finally is commit time again. I didn't want to commit anything until multithreading and the new design was completed.
+ * There is still alot to do to give the program the design I've been planning for ever since I got back. These will be implemented
+   little by little as time permits.
+
+April 17, 2005 - clsk - Added Msg_J & Msg_L handle.
+ * We now handle JOIN messages.
+ * We now handle PART messages.
+
+April 21, 2005 - clsk - Got rid of CreateLocals
+ * Got rid of function CreateLocals() in tools. The procedures in that function are now done in Networks's constructor.
+
+April 22, 2005 - clsk - Bug fixes.
+ * I've fixed a few old bugs, can't remember exactly which ones at the moment.
+ * Created method ClearChannels in Client class. This method takes care of deleting all channels from a user.
+   Mainly used when a channel sends a join 0. Could be used for other things in the future.
+ * Also created Msg_SQ. Handler for SQUIT messages.
+ * Also Msg_C and Msg_L can now handle multiple channel parameters.
+
+October 2, 2005 - clsk - Configuration File Parser.
+ * Finished new Configuration File Parser (ConfigParser.cpp / ConfigParser.h).
+ * New ConfigParser is much more flexible and easy to use.
+ * Only difference from a user's perspective is that Configuration values are now between "'s and 
+   a semicolon (';') is no longer needed to finish the "statement".
+
+October 2, 2005 - clsk - MODE and KICK messages.
+ * Finished parsing KICK and MODE messages.
+
+October 4, 2005 - clsk - CLEARMODE message.
+ * Finished parsing CLEARMODE message.
+ * Also added ClearOps(), ClearVoice() and ClearBans() methods to Channel class.
+
+October 4, 2005 - clsk - TOPIC message.
+ * Finished parsing TOPIC message.
+
+October 5, 2005 - clsk - OPMODE message.
+ * Finished parsing OPMODE message.
+
+October 6, 2005 - clsk - DelServer bug fixed.
+ * Added ServerDownLinks member to servers to fix bug related to deleting servers on netsplits.
+   I haven't been able to test it yet, but this should solve the problem. I'll test when time permits.
+
+October 7, 2005 - clsk - Got rid of multithreading.
+ * The base system doesn't use multithreading anymore.
+   It makes the system too complex and there's not much to gain from it.
+ * The thread class will stay in the source tree because I plan bots to run on a different thread.
+
+October 12, 2005 - clsk - InBuffer, OutBuffer and Network are now singletons.
+ * You cannot create instances of this classes and to refer to the only instance of these
+   classes OutBuffer::obInstance, InBuffer::ibInBuffer and Network::Interface are used respectively.
+
+October 18, 2005 - clsk - Added Bot and MsgMonitor.
+ * Added the base Bot class.
+ * Added MsgMonitor class for bots to monitor server messages.
+ * Added Parser for PRIVMSG and NOTICE messages (Msg_P and Msg_O).
+
+October 19, 2005 - clsk - Added the base Command class for the CService Bot.
+ * Created a class (derived from Bot) for the CService bot.
+ * created a folder cservice under ./src for cservice bot source related files.
+ * Finished the design of the CService bot. Need to implement.
+ * Implemented a test whois command.
+ * Implemented a QUOTE test command.
+
+October 20, 2005 - clsk - We can login to Channel Service bot.
+ * added a LOGIN command for the CService bot. It connects to the database and queries data.
+ * Also made the sql scripts for users, channels and channel access.
+ * Created class SqlUser to represent the User table in the database with mysql++'s create macro.
+ * Created SqlChannel and SqlChannelAccess classes.
+ 
+November 22, 2005 - clsk - Started porting eChan to Windows.
+ * I've changed alot but will try to list the most important changes.
+ * Deleted Thread.h off the project.
+ * Removed lots of old #includes for old unix headers we were not using anymore.
+ * Changed to select() instead of poll(). Windows does not implement poll. This might 
+    change in the unix version as well to make it easier to maintain both ports.
+
+November 23, 2005 - clsk - eChan Compiles in windows.
+ * eChan - 0 error(s), 0 warning(s) :)
+
+December 06, 2005 - clsk - Changes to Socket class.
+ * Added a send and recv class this way we don't have to rely on operators only.
+ * operators << and >> now call Socket::send() and Socket::recv() respectively.
+
+December 08, 2005 - clsk - More changes to Socket class.
+ * Socket's constructor doesn't try to connect now.
+ * There is a connect() function in the Socket class.
+ * There is a static instance of the Socket class (Socket::eSock).
+ * Removed class InMsgSystem.
+
+December 09, 2005 - clsk - Commented the code.
+ * Commented the code a little more.
+ 
+December 10, 2005 - clsk - Bug fix.
+ * Check Comments in Client::ClearChannels().
+
+December 11, 2005 - clsk - Bug fix.
+ * When PRIVMSG is sent to channel but couldn't find who to pass it to so it died.
+   I modified it to where it just ignores the message. Need to add a handler for this later.
+ * Added a README file.
+
+December 17, 2005 - clsk - autotools build system.
+ * I implemented a new build system using autotools.
+   The main reason is that I need a portable way to check if MySQL is installed in the system.
+   This is only works for Unix-like systems of course.
+
+December 18, 2005 - clsk - Fixed Socket blocking bug.
+ * The program would terminate because of unhandled exception happening when the nonblocking socket
+   had to block because a message could not be sent. Since the only time we care about the socket
+   blocking is when recieving data and select() is already taking care of that I set the socket
+   to block again and that solves the problem.
+
+December 31, 2005 - clsk - Check for MySQL++.
+ * the configure script now checks for mysql++.h header and libmysqlpp.so.
+ * Check ./configure --help for options on how to change the default directory 
+   where the script looks for these files.
+
+January 1, 2006 - clsk - Check for MySQL API header.
+ * Find where the MySQL API header (mysql.h) is and add it to the list of include directories.
+
+January 1, 2006 - clsk - Added crypto functionalities.
+ * Added MD5.cpp and MD5.h.
+ * Created Crypto class to serve as an interface to crypto functionalities.
+
+January 4, 2006 - clsk - Added login functionalities.
+ * We can now log in to the bot.
+ * Also the bot joins registered channels on start-up.
+ * The bot also ops itself immidietly after joining the channel.
+
+January 29, 2006 - clsk - Added Cache class.
+ * Added Cache class to cache SQL data. This is a generic class that could be used
+   to cache any type of data.
+ * Created cservice::SQL class to manage SQL queries.
+ * Created SqlUser and SqlChannel structs.
+ * Changed date in copyright notice.
+ 
+February 9, 2006 - clsk - Bug fixing.
+ * Fixed bugs in Cache class.
+ * Finished SQL::QueryDB.
+
+February 10, 2006 - clsk - More bug fixes.
+ * More bug fixes to Cache class.
+
+February 17, 2006 - clsk - D Message Handle.
+ * Made a Msg_D class to handle kill messages.
+ * Fixed a bug in Channel::DelBan.
+
+February 19, 2006 - clsk - Look for cached users on login.
+ * Look for Cached SqlUser in login before going to database.
+ * If password doesn't mach go to database in case the password
+   was changed from somewhere else.
+
+February 19, 2006 - clsk - SQL class.
+ * Did some more work on cservice::SQL class (looking good so far).
+ * Finished FindUser().
+ * Finished GetAccessLevel() (to be tested tomorrow).
+
+February 21, 2006 - clsk - Created various commands.
+ * Created the following Commands:
+   UP, DOWN, OP, DEOP, VOICE, DEVOICE.
+   as well as functions to support these commands. 
+ * Finished cservice::SQL class.
+ * Alot more changes have been made that I can't recall since last commit.
+
+February 22, 2006 - clsk - Set mode +r to clients.
+ * Set mode +r to Clients when AC message is recieved.
+ * Set mode +r when a Client logs in to the CService bot.
+
+February 23, 2006 - clsk - Reconnect to mysql server.
+ * Reconnect to mysql server when connection is lost.
+
+March 1, 2006 - clsk - Added erase() method to Cache class.
+ * Added erase() method to Cache class. This will be used later
+   when deleting users, channels and channels access from database.
+ * FindChannel(string) and FindUser(string) now use StringCaseCompare()
+   so that entries with different casing don't have to go back to database.
+
+March 16, 2006 - clsk - Hello and Register commands.
+ * Moved QueryDB() and InsertDB() to SqlManager.
+ * Added update() methods for Sql classes.
+   Still need to finish UpdateDB() to complete the update() methods.
+ * Created HELLO and REGISTER commands.
+
+March 20, 2006 - clsk - Added Adduser command.
+ * Added CommandADDUSER.h/cpp
+
+April 24, 2006 - clsk - Finished SQL::UpdateDB.
+ * Finished SQL::UpdateDB.
+ * Changed InsertDB to use MySql++'s ResNel::insert_id.
+ * Created SQL::FindChannelAccess().
+ * Created CommandMODINFO.
+ * Finished SQL::DeleteDB.
+ * Created CommandREMUSER.
+
+June 13, 2006 - clsk - Additions and fixes.
+ * When deleting channels or users from database, any ChannelAccess associated
+   with them will be deleted as well automatically by SqlUser::Delete() and SqlChannel::Delete()
+
+August 1st, 2006 - clsk - AUTOMODE Support.
+ * Added automode support.
+
+August 6th, 2006 - clsk - Added Access Command.
+ * Added CommandACCESS.
+
